@@ -1,0 +1,59 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/build/outputs/@PROJECT_NAME@.elf",
+            "name": "Debug (J-Link)",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "serverpath": "@OPENOCD_ROOT@/bin/openocd.exe",
+            "configFiles": [
+                "${workspaceFolder}/.vscode/openocd_jlink.cfg"
+            ],
+            "searchDir": [
+                "@OPENOCD_ROOT@/openocd/scripts"
+            ],
+            "gdbPath": "@GCC_ROOT@/bin/arm-none-eabi-gdb.exe",
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/build/outputs/@PROJECT_NAME@.elf",
+            "name": "Debug (DAPLink)",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "serverpath": "@OPENOCD_ROOT@/bin/openocd.exe",
+            "configFiles": [
+                "${workspaceFolder}/.vscode/openocd_daplink.cfg"
+            ],
+            "searchDir": [
+                "@OPENOCD_ROOT@/openocd/scripts"
+            ],
+            "gdbPath": "@GCC_ROOT@/bin/arm-none-eabi-gdb.exe",
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/build/outputs/@PROJECT_NAME@.elf",
+            "name": "Debug (XDS110)",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "serverpath": "@OPENOCD_ROOT@/bin/openocd.exe",
+            "configFiles": [
+                "${workspaceFolder}/.vscode/openocd_xds110.cfg"
+            ],
+            "searchDir": [
+                "@OPENOCD_ROOT@/openocd/scripts"
+            ],
+            "gdbPath": "@GCC_ROOT@/bin/arm-none-eabi-gdb.exe",
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none"
+        }
+    ]
+}

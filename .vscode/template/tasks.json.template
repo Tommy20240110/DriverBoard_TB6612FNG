@@ -1,0 +1,112 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Project Configure",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/configure.bat",
+            "problemMatcher": []
+        },
+        {
+            "label": "TI Sysconfig Prebuild",
+            "type": "shell",
+            "command": "${workspaceFolder}/.ti/syscfg.bat",
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake configure",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--preset", "user-debug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake build",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "build"
+            ],
+            "dependsOn": [
+                "TI Sysconfig Prebuild",
+                "CMake configure"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake clean",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "build",
+                "--target", "clean"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake clean rebuild",
+            "type": "shell",
+            "dependsOn": [
+                "CMake clean",
+                "CMake build"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
+            "label": "Flash (J-Link)",
+            "type": "shell",
+            "command": "@OPENOCD_ROOT@/bin/openocd.exe",
+            "args": [
+                "-s", "@OPENOCD_ROOT@/openocd/scripts",
+                "-f", "${workspaceFolder}/.vscode/openocd_jlink.cfg",
+                "-c", "program ${workspaceFolder}/build/outputs/@PROJECT_NAME@.elf verify reset exit"
+            ],
+            "dependsOn": [
+                "CMake build"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
+            "label": "Flash (DAPLink)",
+            "type": "shell",
+            "command": "@OPENOCD_ROOT@/bin/openocd.exe",
+            "args": [
+                "-s", "@OPENOCD_ROOT@/openocd/scripts",
+                "-f", "${workspaceFolder}/.vscode/openocd_daplink.cfg",
+                "-c", "program ${workspaceFolder}/build/outputs/@PROJECT_NAME@.elf verify reset exit"
+            ],
+            "dependsOn": [
+                "CMake build"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
+            "label": "Flash (XDS110)",
+            "type": "shell",
+            "command": "@OPENOCD_ROOT@/bin/openocd.exe",
+            "args": [
+                "-s", "@OPENOCD_ROOT@/openocd/scripts",
+                "-f", "${workspaceFolder}/.vscode/openocd_xds110.cfg",
+                "-c", "program ${workspaceFolder}/build/outputs/@PROJECT_NAME@.elf verify reset exit"
+            ],
+            "dependsOn": [
+                "CMake build"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        }
+    ]
+}

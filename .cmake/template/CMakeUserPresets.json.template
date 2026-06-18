@@ -1,0 +1,37 @@
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "user-debug",
+            "inherits": "debug",
+            "displayName": "User Debug",
+            "description": "Debug configuration with user's SDK and GCC path",
+            "cacheVariables": {
+                "TI_SDK_ROOT": {
+                    "type": "PATH",
+                    "value": "@TI_SDK_ROOT@"
+                },
+                "GCC_ROOT": {
+                    "type": "PATH",
+                    "value": "@GCC_ROOT@"
+                }
+            }
+        },
+        {
+            "name": "user-release",
+            "inherits": "release",
+            "displayName": "User Release",
+            "description": "Release configuration with user's SDK and GCC path",
+            "cacheVariables": {
+                "TI_SDK_ROOT": {
+                    "type": "PATH",
+                    "value": "@TI_SDK_ROOT@"
+                },
+                "GCC_ROOT": {
+                    "type": "PATH",
+                    "value": "@GCC_ROOT@"
+                }
+            }
+        }
+    ]
+}

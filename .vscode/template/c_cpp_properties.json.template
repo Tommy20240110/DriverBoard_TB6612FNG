@@ -1,0 +1,77 @@
+{
+    "env": {
+        "myIncludePath": [
+            "${config:ti.sdk.root}/source/third_party/CMSIS/Core/Include",
+            "${config:ti.sdk.root}/source",
+            "${workspaceFolder}/User",
+            "${workspaceFolder}/Core/Inc"
+        ],
+        "myDeviceDefines": [
+            "Please fill in your device macro definition such as __MSPM0G3507__"
+        ]
+    },
+    "configurations": [
+        {
+            "name": "Win32",
+            "compilerPath": "arm-none-eabi-gcc",
+            "intelliSenseMode": "windows-gcc-arm",
+            "includePath": [
+                "${myIncludePath}",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "${myDeviceDefines}"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "browse": {
+                "path": [
+                    "${myIncludePath}",
+                    "${workspaceFolder}"
+                ]
+            }
+        },
+        {
+            "name": "Mac",
+            "compilerPath": "arm-none-eabi-gcc",
+            "intelliSenseMode": "macos-gcc-arm",
+            "includePath": [
+                "${myIncludePath}",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "${myDeviceDefines}"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "browse": {
+                "path": [
+                    "${myIncludePath}",
+                    "${workspaceFolder}"
+                ]
+            }
+        },
+        {
+            "name": "Linux-GCC",
+            "compilerPath": "arm-none-eabi-gcc",
+            "intelliSenseMode": "linux-gcc-arm",
+            "includePath": [
+                "${myIncludePath}",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "${myDeviceDefines}"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "browse": {
+                "path": [
+                    "${myIncludePath}",
+                    "${workspaceFolder}"
+                ]
+            }
+        }
+    ],
+    "version": 4,
+    "enableConfigurationSquiggles": true
+}

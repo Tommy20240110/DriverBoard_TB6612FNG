@@ -1,0 +1,12 @@
+/CMakePresets.json
+/CMakeUserPresets.json
+.cmake/toolchain/toolchain.cmake
+.ti/generate/
+.ti/syscfg.ini
+.vscode/*.json
+!.vscode/settings.json
+build/
+Core/*
+scripts/config.ini
+User/*
+!User/.empty
