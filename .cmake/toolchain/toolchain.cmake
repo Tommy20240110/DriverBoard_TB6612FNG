@@ -1,0 +1,78 @@
+# Target system
+set(CMAKE_SYSTEM_NAME      Generic)
+set(CMAKE_SYSTEM_PROCESSOR arm)
+
+# TI SDK path
+if(NOT DEFINED TI_SDK_ROOT)
+    message(FATAL_ERROR "Set TI_SDK_ROOT in CMakeUserPresets.json")
+endif()
+
+# Chip parameters
+set(CHIP_MODEL  "mspm0g3507")
+set(CHIP_FAMILY "mspm0g1x0x_g3x0x")
+set(CORE        "cortex-m0plus")
+set(ARCH        "armv6-m")
+set(FLOAT_ABI   "soft")
+
+# Chip-related paths
+set(CHIP_LIB_PATH  "${TI_SDK_ROOT}/source/ti/driverlib/lib/gcc/m0p/${CHIP_FAMILY}")
+set(LINKER_SCRIPT  "${CMAKE_SOURCE_DIR}/.ti/generate/device_linker.lds")
+set(GENLIBS_SCRIPT "${CMAKE_SOURCE_DIR}/.ti/generate/device.lds.genlibs")
+set(OPT_SCRIPT     "${CMAKE_SOURCE_DIR}/.ti/generate/device.opt")
+
+# GCC path
+if(NOT DEFINED GCC_ROOT)
+    message(FATAL_ERROR "Set GCC_ROOT in CMakeUserPresets.json")
+endif()
+
+# Compiler
+set(CMAKE_C_COMPILER   ${GCC_ROOT}/bin/arm-none-eabi-gcc.exe)
+set(CMAKE_CXX_COMPILER ${GCC_ROOT}/bin/arm-none-eabi-g++.exe)
+set(CMAKE_ASM_COMPILER ${GCC_ROOT}/bin/arm-none-eabi-gcc.exe)
+set(CMAKE_OBJCOPY      ${GCC_ROOT}/bin/arm-none-eabi-objcopy.exe)
+set(CMAKE_OBJDUMP      ${GCC_ROOT}/bin/arm-none-eabi-objdump.exe)
+set(CMAKE_SIZE         ${GCC_ROOT}/bin/arm-none-eabi-size.exe)
+
+# Search strategy
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+
+# Compile options
+string(JOIN " " CMAKE_C_FLAGS_INIT
+    -mcpu=${CORE}
+    -march=${ARCH}
+    -mthumb
+    -mfloat-abi=${FLOAT_ABI}
+    -std=c99
+    -ffunction-sections
+    -fdata-sections
+    -g
+    -gstrict-dwarf
+    -Wall
+)
+
+set(CMAKE_CXX_FLAGS_INIT "-mcpu=${CORE} -march=${ARCH} -mthumb -mfloat-abi=${FLOAT_ABI} -std=c++11 -ffunction-sections -fdata-sections -g -Wall")
+set(CMAKE_ASM_FLAGS_INIT "-mcpu=${CORE} -march=${ARCH} -mthumb -mfloat-abi=${FLOAT_ABI} -x assembler-with-cpp")
+
+set(CMAKE_C_FLAGS_DEBUG_INIT   "-O3")
+set(CMAKE_C_FLAGS_RELEASE_INIT "-Os")
+set(CMAKE_CXX_FLAGS_DEBUG_INIT   "-O3")
+set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Os")
+
+# Linker options (libraries managed by link_syscfg_libs.cmake, GENLIBS_SCRIPT not used directly)
+string(JOIN " " CMAKE_EXE_LINKER_FLAGS_INIT
+    -mcpu=${CORE}
+    -march=${ARCH}
+    -mthumb
+    -T${LINKER_SCRIPT}
+    -static
+    -specs=nano.specs
+    -specs=nosys.specs
+    -Wl,--gc-sections
+    -Wl,--no-warn-rwx-segments
+)
+
+# Skip compiler try-run detection (not needed for embedded cross-compilation)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)

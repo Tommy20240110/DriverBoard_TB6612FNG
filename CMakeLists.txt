@@ -34,6 +34,23 @@ file(GLOB_RECURSE SRC_FILES
     ${CMAKE_SOURCE_DIR}/Core/*.cpp
 )
 
+# Host-only Platform contract tests have their own CMake project.
+list(FILTER SRC_FILES EXCLUDE REGEX
+    "/User/Platform/tests/")
+list(FILTER SRC_FILES EXCLUDE REGEX
+    "/User/Platform/examples/")
+
+# Exactly one MCU provider is linked into a firmware image.
+if(NOT DEFINED PLATFORM_PORT)
+    set(PLATFORM_PORT "MSPM0")
+endif()
+list(FILTER SRC_FILES EXCLUDE REGEX
+    "/User/Platform/arch/")
+file(GLOB_RECURSE PLATFORM_ARCH_SRC
+    ${CMAKE_SOURCE_DIR}/User/Platform/arch/${PLATFORM_PORT}/*.c
+)
+list(APPEND SRC_FILES ${PLATFORM_ARCH_SRC})
+
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".elf")
 
@@ -84,6 +101,7 @@ message(STATUS "Chip Model:     ${CHIP_MODEL}")
 message(STATUS "Chip Family:    ${CHIP_FAMILY}")
 message(STATUS "Core:           ${CORE}")
 message(STATUS "Architecture:   ${ARCH}")
+message(STATUS "Platform Port:  ${PLATFORM_PORT}")
 message(STATUS "TI SDK:         ${TI_SDK_ROOT}")
 message(STATUS "Output Dir:     ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 message(STATUS "========================================")
